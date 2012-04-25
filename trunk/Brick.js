@@ -150,7 +150,7 @@ function Brick() {
 			// vertical move
 			if (downKey) {
 				this.Yshift += spToDrop;
-				if (this.Yshift > unit) {
+				if (this.Yshift >= unit) {
 					this.Yshift -= unit;
 					this.Y0++;
 				}
