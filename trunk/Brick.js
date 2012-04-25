@@ -33,57 +33,36 @@ function Square() {
 		var rightXarr = this.x + x0 + 1;
 		var thisYarr = dimY - 1 - this.y - y0;
 		
-		if (rightXarr == dimX) {
-			return true;
-		}
-		
-		if (typeof(settledArr[thisYarr]) != 'undefined' && 
-		    typeof(settledArr[thisYarr][rightXarr]) != 'undefined') {
-			return true;
-		}
-		
-		return false;
+		return isntFreeSquare(rightXarr, thisYarr);
 	}
 	
 	this.IsLeftContact = function(x0, y0) {
 		var leftXarr = this.x + x0 - 1;
 		var thisYarr = dimY - 1 - this.y - y0;
 		
-		if (leftXarr < 0) {
-			return true;
-		}
-		
-		if (typeof(settledArr[thisYarr]) != 'undefined' && 
-		    typeof(settledArr[thisYarr][leftXarr]) != 'undefined') {
-			return true;
-		}
-		
-		return false;
+		return isntFreeSquare(leftXarr, thisYarr);
 	}
 	
 	this.IsBottomContact = function(x0, y0, brYshift) {
+		var thisXarr = this.x + x0;
 		var nextYarr = dimY - 2 - this.y - y0;
 		
-		if (nextYarr < 0) {
+		if (isntFreeSquare(thisXarr, nextYarr)) {
 			return true;
 		}
 		
-		if (typeof(settledArr[nextYarr]) != 'undefined' && 
-		    typeof(settledArr[nextYarr][this.x + x0]) != 'undefined') {
-			return true;
-		}
-		
-		if (spToDrop == dropY) {
-			if (nextYarr == 0 || // next raw is the last free raw before rim or
-				(typeof(settledArr[nextYarr-1]) != 'undefined' && // before busy square 
-				 typeof(settledArr[nextYarr-1][this.x + x0]) != 'undefined')) {
-				if (brYshift + dropY > unit) {
-					spToDrop = unit - brYshift;
-				}
-			}
-		}
+		// correct space to drop, if need
+		if (isntFreeSquare(thisXarr, nextYarr-1) && // next raw is the last free raw before rim or before busy square
+			brYshift + dropY > unit) {				// free space is less than dropY
+			
+			spToDrop = unit - brYshift;			
+		}		
 
 		return false;
+	}
+	
+	this.isntFreeSquare = function(x0, y0) {
+		return isntFreeSquare(this.x + x0, dimY - 1 - this.y - y0);
 	}
 }
 // --------------- </class Square> --------------- 
@@ -109,6 +88,7 @@ function Brick() {
 	
 	// array of squares (with relative coordinates)
     this.sqArrey = new Array();
+	this.sqArr_rotated = new Array();
 	
 	// functions
 	this.Show = function() {
@@ -220,15 +200,20 @@ function Brick() {
 	
 	this.RotateClockwise = function() {
 		for (i = 0; i < this.sqArrey.length; i++) {
-			var xOld = this.sqArrey[i].x;
-			var yOld = this.sqArrey[i].y;
-			
 			//xNew = xR + (yR-yOld)
-			this.sqArrey[i].x = this.xR + this.yR - yOld;
+			this.sqArr_rotated[i].x = this.xR + this.yR - this.sqArrey[i].y;
 			
 			//yNew = yR + (xOld-xR)
-			this.sqArrey[i].y = this.yR + xOld - this.xR;
+			this.sqArr_rotated[i].y = this.yR + this.sqArrey[i].x - this.xR;
+			
+			if ( this.sqArr_rotated[i].isntFreeSquare(this.X0, this.Y0) ) // no way to rotate - ignore changes
+				return;
 		}
+		
+		// rotate is permissible - save changes (interchange arrays)
+		var bufArr = this.sqArrey;
+		this.sqArrey = this.sqArr_rotated
+		this.sqArr_rotated = bufArr;
 	}
 	
 	this.AlignYpos = function() {

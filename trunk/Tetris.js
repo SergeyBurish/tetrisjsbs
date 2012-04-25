@@ -16,7 +16,8 @@ var leftKey = false;
 var upKey = false;
 var downKey = false;
 
-var settledArr; // = new Array(); // this.sqArrey = new Array();
+// Arrays of Settled Squares
+var settledArr;
 
 var brick;
 var zzz = 0;
@@ -63,7 +64,7 @@ function init() {
 		dY = 0.25;
 		dropY = 8;
 		
-		//InitSquareArrrays(); // Arrrays of Settled Squares
+		//InitSquareArrrays();
 		settledArr[0] = new Array(dimX);
 		settledArr[0][0] = "rgb(250, 0, 0)";
 		settledArr[0][3] = "rgb(250, 0, 0)";
@@ -106,22 +107,27 @@ function NextBrick() {
 	
 	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
 
+	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[0].x = 0;
 	brick.sqArrey[0].y = 0;
 	
+	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[1].x = 1;
 	brick.sqArrey[1].y = 0;	
 
+	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[2].x = 0;
 	brick.sqArrey[2].y = 1;	
 	
+	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[3].x = 1;
 	brick.sqArrey[3].y = 1;
 
+	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[4].x = 2;
 	brick.sqArrey[4].y = 1;
@@ -206,6 +212,16 @@ function ShowSettled() {
 			}
 		}
 	}
+}
+
+function isntFreeSquare(x, y) {
+	if (x < 0 || x >= dimX) return true;
+	if (y < 0 || y >= dimY) return true;
+	
+	if ( (typeof(settledArr[y]) != 'undefined') && 
+		 (typeof(settledArr[y][x]) != 'undefined') ) return true;
+		 
+	return false;
 }
 
 function gOnSettle() {
