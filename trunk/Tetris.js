@@ -102,10 +102,43 @@ function NextBrick() {
 	brick.X0 = 5;
 	brick.Y0 = 0;
 	
-    brick.xR = 0.5;
-    brick.yR = 0.5;
-	
 	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
+	
+
+	// 5 length line
+	brick.xR = 0;
+    brick.yR = 2;
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[0].x = 0;
+	brick.sqArrey[0].y = 0;
+	
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[1].x = 0;
+	brick.sqArrey[1].y = 1;	
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[2].x = 0;
+	brick.sqArrey[2].y = 2;	
+	
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[3].x = 0;
+	brick.sqArrey[3].y = 3;
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[4].x = 0;
+	brick.sqArrey[4].y = 4;
+	
+
+	/* 
+	// inverted comma
+	brick.xR = 0.5;
+    brick.yR = 0.5;
 
 	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
@@ -131,6 +164,8 @@ function NextBrick() {
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[4].x = 2;
 	brick.sqArrey[4].y = 1;
+	*/
+	
 /*	
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[0].x = 1;
@@ -196,6 +231,151 @@ function Grid() {
 		ctx.closePath();
 		ctx.stroke();
 	}
+	
+	BresenhamCircle(3, 19, 1, 0);
+	circleBy2PntBres(5, 6, -4, 6);
+
+}
+
+function circleBy2PntBres(x_c, y_c, x, y) {
+	ctx.fillStyle = "rgb(250, 250, 0)";
+	// center
+	setPixel(x_c, y_c, 0);
+	
+	// sectors of the circle:
+	//   8 | 1
+	// 7 \ | / 2
+	// ---------
+	// 6 / | \ 3
+	//   5 | 4
+	
+	var sector = 0;
+	if      (x >= 0 &&  x <= y) DoCircleBy2PntBres(x_c, y_c,  x, y, 1); // sector = 1
+	else if (x < 0  && -x <= y) DoCircleBy2PntBres(x_c, y_c, -x, y, 8); // sector = 8
+	
+	DoCircleBy2PntBres(x_c, y_c, x, y, sector);
+}
+
+function DoCircleBy2PntBres(x_c, y_c, x, y, sector) {
+	var x0 = x, y0 = y;
+	//sector = 8;
+	
+	selectCell(x_c, y_c, x0, y0, sector);
+	selectCell(x_c, y_c, y0, x0, sector);
+	selectCell(x_c, y_c, y0, -x0, sector);
+	
+	var delta;
+	if (x == y) delta = -1;
+	else 
+		delta = 4*x-2*y+3;
+		
+	var d0 = delta;
+	//delta=3-2*radius;
+	while(x<y) {
+		if (delta<0)
+			delta+=4*x+6;
+		else {
+			delta+=4*(x-y)+10;
+			y--;
+		}
+		x++;
+		
+		selectCell(x_c, y_c, x, y, sector);
+		selectCell(x_c, y_c, y, x, sector);
+	}
+ 
+	if(x==y) selectCell(x_c, y_c, x, y, sector);
+	
+	
+	x = x0;
+	y = y0;
+	delta = d0;
+	while (x > 0) {
+		// current point (x0, y0) is set already, so set next point after calculation
+		if (delta<0) {
+			delta+= 4*(y-x)+6;
+			y++;
+		}
+		else
+			delta+= 6-4*x;
+			
+		x--;
+		
+		selectCell(x_c, y_c, y, x, sector);
+		selectCell(x_c, y_c, y, - x, sector);
+	}
+}
+
+function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
+	var xAbs, yAbs; // Abs-olute
+	
+	switch (sector)
+	{
+		case 1:
+			xAbs = x_c + xRel; yAbs = y_c + yRel;
+			break;
+			
+		case 8:
+			xAbs = x_c + yRel; yAbs = y_c + xRel;
+			break;
+			
+		//default:
+	}
+	
+	ctx.fillRect (unit*(xAbs), unit*(dimY - yAbs - 1),
+										unit, unit);
+}
+
+function BresenhamCircle(x_center, y_center, radius, color_code) {
+	ctx.fillStyle = "rgb(0, 250, 250)";
+	// center
+	setPixel(x_center, y_center, color_code);
+	
+    var x,y,delta;
+    x = 0;
+    y = radius;
+    delta=3-2*radius;
+    while(x<y) {
+        plot_circle(x,y,x_center,y_center,color_code);
+        plot_circle(y,x,x_center,y_center,color_code);
+        if (delta<0)
+            delta+=4*x+6;
+        else {
+            delta+=4*(x-y)+10;
+            y--;
+        }
+        x++;
+    }
+ 
+    if(x==y) plot_circle(x,y,x_center,y_center,color_code);
+}
+
+function plot_circle(x, y, x_center, y_center, color_code)
+{
+    setPixel(x_center+x,y_center+y, color_code);
+    setPixel(x_center+x,y_center-y, color_code);
+    setPixel(x_center-x,y_center+y, color_code);
+    setPixel(x_center-x,y_center-y, color_code);
+}
+
+function setPixel(aX, aY, sector) {
+	var x = aX, y = aY;
+	
+	switch (sector)
+	{
+		case 0:
+			x = aX; y = aY;
+			break;
+			
+		case 1:
+			x = -aX; y = aY;
+			break;
+			
+		default:
+	}
+	
+	ctx.fillRect (unit*(x), unit*(dimY - y - 1),
+										unit, unit);
 }
 
 function ShowSettled() {

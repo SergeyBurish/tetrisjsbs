@@ -64,6 +64,35 @@ function Square() {
 	this.isntFreeSquare = function(x0, y0) {
 		return isntFreeSquare(this.x + x0, dimY - 1 - this.y - y0);
 	}
+	
+	/*
+	// debug
+	this.trace_rotation = function(xR, yR) {
+		this.BresenhamCircle_draw();
+	}
+	
+	this.BresenhamCircle_draw = function(xR, yR) {
+		ctx.fillStyle = "rgb(0, 125, 125)";
+		
+		var x_center = 7, y_center = 14, radius =1, color_code;
+		var x,y,delta;
+		x = 0;
+		y = radius;
+		delta=3-2*radius;
+		while(x<y) {
+			plot_circle(x,y,x_center,y_center,color_code);
+			plot_circle(y,x,x_center,y_center,color_code);
+			if (delta<0)
+				delta+=4*x+6;
+			else {
+				delta+=4*(x-y)+10;
+				y--;
+			}
+			x++;
+		}
+	 
+		if(x==y) plot_circle(x,y,x_center,y_center,color_code);
+	}*/
 }
 // --------------- </class Square> --------------- 
 
@@ -97,11 +126,14 @@ function Brick() {
 		this.bottomContact = false;
 		spToDrop = dropY;
 
+		this.trace_rotation(this.sqArrey[0]);
 		ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
 		for (i = 0; i < this.sqArrey.length; i++) {
 			ctx.fillRect (	unit*(this.X0 + this.sqArrey[i].x), 
 							unit*(this.Y0 + this.sqArrey[i].y) + this.Yshift,
 							unit, unit);
+							
+			//this.sqArrey[i].trace_rotation(this.xR, this.yR);
 			
 			if (!this.rightContact && this.sqArrey[i].IsRightContact(this.X0, this.Y0)) 
 				this.rightContact = true;
@@ -112,7 +144,40 @@ function Brick() {
 			if (!this.bottomContact && this.sqArrey[i].IsBottomContact(this.X0, this.Y0, this.Yshift)) 
 				this.bottomContact = true;
 		}
+		var z = 100;
+		//this.sqArrey[0].trace_rotation(this.X0+this.xR, this.Y0+this.yR);
+		//this.trace_rotation(this.sqArrey[0]);
     }
+	
+	// debug
+	this.trace_rotation = function(sqr) {
+		this.BresenhamCircle_draw(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR - sqr.x, this.yR - sqr.y);
+	}
+	
+	this.BresenhamCircle_draw = function(xR, yR, x, y) {
+		ctx.fillStyle = "rgb(150, 255, 255)";
+		
+		var radius =2, color_code;
+		var delta;
+		//x = 0;
+		//y = radius;
+		//x=1;
+		//y=2;
+		delta=3-2*radius;
+		while(x<y) {
+			plot_circle(x,y,xR,yR,color_code);
+			plot_circle(y,x,xR,yR,color_code);
+			if (delta<0)
+				delta+=4*x+6;
+			else {
+				delta+=4*(x-y)+10;
+				y--;
+			}
+			x++;
+		}
+	 
+		if(x==y) plot_circle(x,y,xR,yR,color_code);
+	}
 	
 	this.Move = function() {
 		if (!this.bottomContact) {
