@@ -243,22 +243,32 @@ function circleBy2PntBres(x_c, y_c, x, y) {
 	setPixel(x_c, y_c, 0);
 	
 	// sectors of the circle:
-	//   8 | 1
-	// 7 \ | / 2
-	// ---------
-	// 6 / | \ 3
-	//   5 | 4
+	//       8  1  1
+	//    8     |     1
+	//  7   \   |   /   2
+	//        \ | /
+	// 7 --------------- 2
+	//        / | \    
+	//  6   /   |   \   3
+	//    5     |     4
+	//       5  4  4
 	
 	var sector = 0;
-	if      (x >= 0 &&  x <= y) DoCircleBy2PntBres(x_c, y_c,  x, y, 1); // sector = 1
-	else if (x < 0  && -x <= y) DoCircleBy2PntBres(x_c, y_c, -x, y, 8); // sector = 8
-	
-	DoCircleBy2PntBres(x_c, y_c, x, y, sector);
+	if      (x >= 0 && x <=  y) DoCircleBy2PntBres(x_c, y_c,  x,  y, 1);
+	else if (y >= 0 && x >   y) DoCircleBy2PntBres(x_c, y_c,  y,  x, 2);
+	else if (y <  0 && x >  -y) DoCircleBy2PntBres(x_c, y_c, -y,  x, 3);
+	else if (x >= 0 && x <= -y) DoCircleBy2PntBres(x_c, y_c,  x, -y, 4);
+	else if (x <  0 && x >=  y) DoCircleBy2PntBres(x_c, y_c, -x, -y, 5);
+	else if (y <  0 && x <   y) DoCircleBy2PntBres(x_c, y_c, -y, -x, 6);
+	else if (y >= 0 && x <  -y) DoCircleBy2PntBres(x_c, y_c,  y, -x, 7);
+	else if (x <  0 && x >= -y) DoCircleBy2PntBres(x_c, y_c, -x,  y, 8);
 }
 
 function DoCircleBy2PntBres(x_c, y_c, x, y, sector) {
+	if (x == 0 && y == 0)
+		return;
+		
 	var x0 = x, y0 = y;
-	//sector = 8;
 	
 	selectCell(x_c, y_c, x0, y0, sector);
 	selectCell(x_c, y_c, y0, x0, sector);
@@ -270,7 +280,8 @@ function DoCircleBy2PntBres(x_c, y_c, x, y, sector) {
 		delta = 4*x-2*y+3;
 		
 	var d0 = delta;
-	//delta=3-2*radius;
+	
+	// forward pass
 	while(x<y) {
 		if (delta<0)
 			delta+=4*x+6;
@@ -290,8 +301,9 @@ function DoCircleBy2PntBres(x_c, y_c, x, y, sector) {
 	x = x0;
 	y = y0;
 	delta = d0;
+	
+	// backward pass
 	while (x > 0) {
-		// current point (x0, y0) is set already, so set next point after calculation
 		if (delta<0) {
 			delta+= 4*(y-x)+6;
 			y++;
@@ -311,15 +323,16 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 	
 	switch (sector)
 	{
-		case 1:
-			xAbs = x_c + xRel; yAbs = y_c + yRel;
-			break;
-			
-		case 8:
-			xAbs = x_c + yRel; yAbs = y_c + xRel;
-			break;
-			
-		//default:
+		case 1: xAbs = x_c + xRel; yAbs = y_c + yRel; break;
+		case 2: xAbs = x_c + xRel; yAbs = y_c - yRel; break;
+		case 3: xAbs = x_c + yRel; yAbs = y_c - xRel; break;
+		case 4: xAbs = x_c - yRel; yAbs = y_c - xRel; break;
+		case 5: xAbs = x_c - xRel; yAbs = y_c - yRel; break;
+		case 6: xAbs = x_c - xRel; yAbs = y_c + yRel; break;
+		case 7: xAbs = x_c - yRel; yAbs = y_c + xRel; break;
+		case 8: xAbs = x_c + yRel; yAbs = y_c + xRel; break;
+
+		default: // should never happen; error handling?
 	}
 	
 	ctx.fillRect (unit*(xAbs), unit*(dimY - yAbs - 1),
@@ -405,14 +418,6 @@ function isntFreeSquare(x, y) {
 }
 
 function gOnSettle() {
-
-	/*
-	arr = [ "a", "b", "c", "d", "e" ]
-	// удалим с индекса 2 один элемент
-	arr.splice(2,1) 
-	// arr = ["a", "b", "d", "e"]
-	*/
-	
 	settledArr.splice(1,1);
 
 	if (zzz < dimY) {
