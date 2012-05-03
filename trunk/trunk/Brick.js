@@ -151,9 +151,9 @@ function Brick() {
 	
 	// debug
 	this.trace_rotation = function(sqr) {
-		this.BresenhamCircle_draw(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR - sqr.x, this.yR - sqr.y);
+		//this.BresenhamCircle_draw(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR - sqr.x, this.yR - sqr.y);
 	}
-	
+	/*
 	this.BresenhamCircle_draw = function(xR, yR, x, y) {
 		ctx.fillStyle = "rgb(150, 255, 255)";
 		
@@ -178,6 +178,7 @@ function Brick() {
 	 
 		if(x==y) plot_circle(x,y,xR,yR,color_code);
 	}
+	*/
 	
 	this.Move = function() {
 		if (!this.bottomContact) {
