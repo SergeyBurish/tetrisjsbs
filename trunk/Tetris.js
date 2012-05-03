@@ -232,15 +232,15 @@ function Grid() {
 		ctx.stroke();
 	}
 	
-	BresenhamCircle(3, 19, 1, 0);
-	circleBy2PntBres(5, 6, -4, 6);
+	//BresenhamCircle(3, 19, 1, 0);
+	BresenhamBy2Pnt(5, 6, -4, 6);
 
 }
 
-function circleBy2PntBres(x_c, y_c, x, y) {
+function BresenhamBy2Pnt(x_c, y_c, x, y) {
 	ctx.fillStyle = "rgb(250, 250, 0)";
 	// center
-	setPixel(x_c, y_c, 0);
+	//setPixel(x_c, y_c, 0);
 	
 	// sectors of the circle:
 	//       8  1  1
@@ -254,17 +254,17 @@ function circleBy2PntBres(x_c, y_c, x, y) {
 	//       5  4  4
 	
 	var sector = 0;
-	if      (x >= 0 && x <=  y) DoCircleBy2PntBres(x_c, y_c,  x,  y, 1);
-	else if (y >= 0 && x >   y) DoCircleBy2PntBres(x_c, y_c,  y,  x, 2);
-	else if (y <  0 && x >  -y) DoCircleBy2PntBres(x_c, y_c, -y,  x, 3);
-	else if (x >= 0 && x <= -y) DoCircleBy2PntBres(x_c, y_c,  x, -y, 4);
-	else if (x <  0 && x >=  y) DoCircleBy2PntBres(x_c, y_c, -x, -y, 5);
-	else if (y <  0 && x <   y) DoCircleBy2PntBres(x_c, y_c, -y, -x, 6);
-	else if (y >= 0 && x <  -y) DoCircleBy2PntBres(x_c, y_c,  y, -x, 7);
-	else if (x <  0 && x >= -y) DoCircleBy2PntBres(x_c, y_c, -x,  y, 8);
+	if      (x >= 0 && x <=  y) DoBresenhamBy2Pnt(x_c, y_c,  x,  y, 1);
+	else if (y >= 0 && x >   y) DoBresenhamBy2Pnt(x_c, y_c,  y,  x, 2);
+	else if (y <  0 && x >  -y) DoBresenhamBy2Pnt(x_c, y_c, -y,  x, 3);
+	else if (x >= 0 && x <= -y) DoBresenhamBy2Pnt(x_c, y_c,  x, -y, 4);
+	else if (x <  0 && x >=  y) DoBresenhamBy2Pnt(x_c, y_c, -x, -y, 5);
+	else if (y <  0 && x <   y) DoBresenhamBy2Pnt(x_c, y_c, -y, -x, 6);
+	else if (y >= 0 && x <  -y) DoBresenhamBy2Pnt(x_c, y_c,  y, -x, 7);
+	else if (x <  0 && x >= -y) DoBresenhamBy2Pnt(x_c, y_c, -x,  y, 8);
 }
 
-function DoCircleBy2PntBres(x_c, y_c, x, y, sector) {
+function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 	if (x == 0 && y == 0)
 		return;
 		
@@ -338,7 +338,7 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 	ctx.fillRect (unit*(xAbs), unit*(dimY - yAbs - 1),
 										unit, unit);
 }
-
+/*
 function BresenhamCircle(x_center, y_center, radius, color_code) {
 	ctx.fillStyle = "rgb(0, 250, 250)";
 	// center
@@ -390,7 +390,7 @@ function setPixel(aX, aY, sector) {
 	ctx.fillRect (unit*(x), unit*(dimY - y - 1),
 										unit, unit);
 }
-
+*/
 function ShowSettled() {
 	//var raws = 
 	for (var y = 0; y < dimY; y++) {
