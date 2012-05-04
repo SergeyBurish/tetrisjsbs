@@ -131,9 +131,8 @@ function NextBrick() {
 
 	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
-	brick.sqArrey[4].x = 0;
-	brick.sqArrey[4].y = 4;
-	
+	brick.sqArrey[4].x = 3;
+	brick.sqArrey[4].y = 5;
 
 	/* 
 	// inverted comma
@@ -233,14 +232,20 @@ function Grid() {
 	}
 	
 	//BresenhamCircle(3, 19, 1, 0);
-	BresenhamBy2Pnt(5, 6, -4, 6);
-
+	
+	//var x_c = 6, y_c = 7, x = 2, y = 3, dx = 0, dy = 0; 
+	//BresenhamBy2Pnt(x_c, y_c, x, y);
+	//BresenhamBy2Pnt(x_c, y_c, y, -x);
+	//BresenhamBy2Pnt(x_c, y_c, -x, -y);
+	//BresenhamBy2Pnt(x_c, y_c, -y, x);	
 }
 
 function BresenhamBy2Pnt(x_c, y_c, x, y) {
-	ctx.fillStyle = "rgb(250, 250, 0)";
 	// center
+	//ctx.fillStyle = "rgb(250, 150, 0)";
 	//setPixel(x_c, y_c, 0);
+	
+	ctx.fillStyle = "rgb(250, 250, 150)";
 	
 	// sectors of the circle:
 	//       8  1  1
@@ -275,9 +280,9 @@ function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 	selectCell(x_c, y_c, y0, -x0, sector);
 	
 	var delta;
-	if (x == y) delta = -1;
-	else 
-		delta = 4*x-2*y+3;
+	if (x == 1 && y == 1)				delta = 1;			// freaks of 
+	else if ((x==0 && y==1) || (x==y))	delta = -1;			//  special cases;
+	else								delta = 4*x-2*y+3;	// conmmon case
 		
 	var d0 = delta;
 	
@@ -314,7 +319,7 @@ function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 		x--;
 		
 		selectCell(x_c, y_c, y, x, sector);
-		selectCell(x_c, y_c, y, - x, sector);
+		selectCell(x_c, y_c, y, -x, sector);
 	}
 }
 
@@ -338,7 +343,7 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 	ctx.fillRect (unit*(xAbs), unit*(dimY - yAbs - 1),
 										unit, unit);
 }
-/*
+// /*
 function BresenhamCircle(x_center, y_center, radius, color_code) {
 	ctx.fillStyle = "rgb(0, 250, 250)";
 	// center
@@ -390,7 +395,8 @@ function setPixel(aX, aY, sector) {
 	ctx.fillRect (unit*(x), unit*(dimY - y - 1),
 										unit, unit);
 }
-*/
+// */
+
 function ShowSettled() {
 	//var raws = 
 	for (var y = 0; y < dimY; y++) {

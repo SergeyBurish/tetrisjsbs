@@ -126,9 +126,12 @@ function Brick() {
 		this.bottomContact = false;
 		spToDrop = dropY;
 
-		this.trace_rotation(this.sqArrey[0]);
-		ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
+		//this.trace_rotation(this.sqArrey[0]);
+		//ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
 		for (i = 0; i < this.sqArrey.length; i++) {
+			this.trace_rotation(this.sqArrey[i]);
+			ctx.fillStyle = this.color;
+			
 			ctx.fillRect (	unit*(this.X0 + this.sqArrey[i].x), 
 							unit*(this.Y0 + this.sqArrey[i].y) + this.Yshift,
 							unit, unit);
@@ -151,34 +154,8 @@ function Brick() {
 	
 	// debug
 	this.trace_rotation = function(sqr) {
-		//this.BresenhamCircle_draw(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR - sqr.x, this.yR - sqr.y);
+		BresenhamBy2Pnt(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR + sqr.x, this.yR - sqr.y);
 	}
-	/*
-	this.BresenhamCircle_draw = function(xR, yR, x, y) {
-		ctx.fillStyle = "rgb(150, 255, 255)";
-		
-		var radius =2, color_code;
-		var delta;
-		//x = 0;
-		//y = radius;
-		//x=1;
-		//y=2;
-		delta=3-2*radius;
-		while(x<y) {
-			plot_circle(x,y,xR,yR,color_code);
-			plot_circle(y,x,xR,yR,color_code);
-			if (delta<0)
-				delta+=4*x+6;
-			else {
-				delta+=4*(x-y)+10;
-				y--;
-			}
-			x++;
-		}
-	 
-		if(x==y) plot_circle(x,y,xR,yR,color_code);
-	}
-	*/
 	
 	this.Move = function() {
 		if (!this.bottomContact) {
@@ -210,6 +187,7 @@ function Brick() {
 				else {
 					accumDY += dY;
 					if (accumDY >= unit) {
+						if (this.Y0 < 10) // hover on 10 line // for debug
 						this.Y0++;
 						accumDY = 0;
 					}
