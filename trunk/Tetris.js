@@ -83,6 +83,10 @@ function init() {
 		settledArr[8] = new Array(dimX);
 		settledArr[8][4] = "rgb(0, 0, 250)";
 		settledArr[8][5] = "rgb(0, 0, 250)";
+		
+		//settledArr[dimY-1] = new Array(dimX);
+		//settledArr[dimY-1][0] = "rgb(250, 0, 0)";
+		//settledArr[dimY-1][dimX-1] = "rgb(250, 0, 0)";
 
 		
 		//alert(settledArr[2][0] + " " + settledArr[2][3] + " " + settledArr[5][1]); // + " " + sq.z + " " + sq.a);
@@ -100,7 +104,7 @@ function NextBrick() {
 	brick = new Brick();
 	
 	brick.X0 = 5;
-	brick.Y0 = 0;
+	brick.Y0 = dimY-1;
 	
 	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
 	
@@ -231,9 +235,9 @@ function Grid() {
 		ctx.stroke();
 	}
 	
-	//BresenhamCircle(3, 19, 1, 0);
+	//BresenhamCircle(3, 19, 4, 0);
 	
-	//var x_c = 6, y_c = 7, x = 2, y = 3, dx = 0, dy = 0; 
+	//var x_c = 6, y_c = 7, x = 0, y = 4; 
 	//BresenhamBy2Pnt(x_c, y_c, x, y);
 	//BresenhamBy2Pnt(x_c, y_c, y, -x);
 	//BresenhamBy2Pnt(x_c, y_c, -x, -y);
@@ -242,10 +246,7 @@ function Grid() {
 
 function BresenhamBy2Pnt(x_c, y_c, x, y) {
 	// center
-	//ctx.fillStyle = "rgb(250, 150, 0)";
-	//setPixel(x_c, y_c, 0);
-	
-	ctx.fillStyle = "rgb(250, 250, 150)";
+	//FillCell(x_c, y_c, "rgb(250, 150, 0)", 0);
 	
 	// sectors of the circle:
 	//       8  1  1
@@ -340,8 +341,7 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 		default: // should never happen; error handling?
 	}
 	
-	ctx.fillRect (unit*(xAbs), unit*(dimY - yAbs - 1),
-										unit, unit);
+	FillCell(xAbs, yAbs, "rgb(250, 250, 150)", 0);
 }
 // /*
 function BresenhamCircle(x_center, y_center, radius, color_code) {
@@ -398,18 +398,21 @@ function setPixel(aX, aY, sector) {
 // */
 
 function ShowSettled() {
-	//var raws = 
 	for (var y = 0; y < dimY; y++) {
 		if (typeof(settledArr[y]) != 'undefined') {
 			for (var x = 0; x < dimX; x++) {
 				if (typeof(settledArr[y][x]) != 'undefined') {
-					ctx.fillStyle = settledArr[y][x];
-					ctx.fillRect (unit*(x), unit*(dimY - y - 1),
-														unit, unit);
-					//alert(y + ";" + x);
+					FillCell(x, y, settledArr[y][x], 0);
 				}
 			}
 		}
+	}
+}
+
+function FillCell(x, y, color, dy) {
+	if (x >= 0 && x < dimX && y >= 0 && y < dimY) {
+		ctx.fillStyle = color;
+		ctx.fillRect (unit*(x), unit*(dimY - y - 1) + dy, unit, unit);
 	}
 }
 

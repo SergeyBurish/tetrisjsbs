@@ -15,7 +15,7 @@ var accumDY = 0;
 var moveRight = false;
 var moveLeft = false;
 
-// 
+// available space to drop
 var spToDrop = 0;
 
 // one rotate per one move
@@ -23,29 +23,36 @@ var rotateDone = false;
 
 var delayCount = 0;
 
+// from brick's float grid  00->x  to global static grid  y
+//                          |                             ^
+//                         \/                             |
+//                          y                            00->x
+function gX(x0, x) {
+	return x0+x;
+}
+
+function gY(y0, y) {
+	return y0-y;
+}
+
 // --------------- <class Square> --------------- 
 function Square() {
+	// relative coordinates in brick's float grid
     this.x = 0;
     this.y = 0;
 	
 	// functions
 	this.IsRightContact = function(x0, y0) {
-		var rightXarr = this.x + x0 + 1;
-		var thisYarr = dimY - 1 - this.y - y0;
-		
-		return isntFreeSquare(rightXarr, thisYarr);
+		return isntFreeSquare( gX(x0, this.x+1), gY(y0, this.y) );
 	}
 	
 	this.IsLeftContact = function(x0, y0) {
-		var leftXarr = this.x + x0 - 1;
-		var thisYarr = dimY - 1 - this.y - y0;
-		
-		return isntFreeSquare(leftXarr, thisYarr);
+		return isntFreeSquare( gX(x0, this.x-1), gY(y0, this.y) );
 	}
 	
 	this.IsBottomContact = function(x0, y0, brYshift) {
-		var thisXarr = this.x + x0;
-		var nextYarr = dimY - 2 - this.y - y0;
+		var thisXarr = gX(x0, this.x);
+		var nextYarr = gY(y0, this.y+1);
 		
 		if (isntFreeSquare(thisXarr, nextYarr)) {
 			return true;
@@ -56,53 +63,20 @@ function Square() {
 			brYshift + dropY > unit) {				// free space is less than dropY
 			
 			spToDrop = unit - brYshift;			
-		}		
+		}
 
 		return false;
 	}
-	
-	this.isntFreeSquare = function(x0, y0) {
-		return isntFreeSquare(this.x + x0, dimY - 1 - this.y - y0);
-	}
-	
-	/*
-	// debug
-	this.trace_rotation = function(xR, yR) {
-		this.BresenhamCircle_draw();
-	}
-	
-	this.BresenhamCircle_draw = function(xR, yR) {
-		ctx.fillStyle = "rgb(0, 125, 125)";
-		
-		var x_center = 7, y_center = 14, radius =1, color_code;
-		var x,y,delta;
-		x = 0;
-		y = radius;
-		delta=3-2*radius;
-		while(x<y) {
-			plot_circle(x,y,x_center,y_center,color_code);
-			plot_circle(y,x,x_center,y_center,color_code);
-			if (delta<0)
-				delta+=4*x+6;
-			else {
-				delta+=4*(x-y)+10;
-				y--;
-			}
-			x++;
-		}
-	 
-		if(x==y) plot_circle(x,y,x_center,y_center,color_code);
-	}*/
 }
 // --------------- </class Square> --------------- 
 
 // --------------- <class Brick> --------------- 
 function Brick() {
-	// absolute coordinates of (0,0) square
+	// absolute coordinates of (0,0) square (in global static grid)
     this.X0 = 0;
     this.Y0 = 0;
 	
-	// center of rotation (relative coordinates)
+	// center of rotation (relative coordinates in brick's float grid)
     this.xR = 0;
     this.yR = 0;
 	
@@ -129,12 +103,10 @@ function Brick() {
 		//this.trace_rotation(this.sqArrey[0]);
 		//ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
 		for (i = 0; i < this.sqArrey.length; i++) {
-			this.trace_rotation(this.sqArrey[i]);
-			ctx.fillStyle = this.color;
+			//this.trace_rotation(this.sqArrey[i]);
+			//ctx.fillStyle = this.color;
 			
-			ctx.fillRect (	unit*(this.X0 + this.sqArrey[i].x), 
-							unit*(this.Y0 + this.sqArrey[i].y) + this.Yshift,
-							unit, unit);
+			FillCell(gX(this.X0, this.sqArrey[i].x), gY(this.Y0, this.sqArrey[i].y), this.color, this.Yshift);
 							
 			//this.sqArrey[i].trace_rotation(this.xR, this.yR);
 			
@@ -147,9 +119,6 @@ function Brick() {
 			if (!this.bottomContact && this.sqArrey[i].IsBottomContact(this.X0, this.Y0, this.Yshift)) 
 				this.bottomContact = true;
 		}
-		var z = 100;
-		//this.sqArrey[0].trace_rotation(this.X0+this.xR, this.Y0+this.yR);
-		//this.trace_rotation(this.sqArrey[0]);
     }
 	
 	// debug
@@ -175,7 +144,7 @@ function Brick() {
 				this.Yshift += spToDrop;
 				if (this.Yshift >= unit) {
 					this.Yshift -= unit;
-					this.Y0++;
+					this.Y0--;
 				}
 				yAlignNeed = true;
 			}
@@ -187,8 +156,8 @@ function Brick() {
 				else {
 					accumDY += dY;
 					if (accumDY >= unit) {
-						if (this.Y0 < 10) // hover on 10 line // for debug
-						this.Y0++;
+						//if (this.Y0 < 10) // hover on 10 line // for debug
+						this.Y0--;
 						accumDY = 0;
 					}
 				}
@@ -250,7 +219,7 @@ function Brick() {
 			//yNew = yR + (xOld-xR)
 			this.sqArr_rotated[i].y = this.yR + this.sqArrey[i].x - this.xR;
 			
-			if ( this.sqArr_rotated[i].isntFreeSquare(this.X0, this.Y0) ) // no way to rotate - ignore changes
+			if ( isntFreeSquare(gX(this.X0, this.sqArr_rotated[i].x), gY(this.Y0, this.sqArr_rotated[i].y) ) ) // no way to rotate - ignore changes
 				return;
 		}
 		
@@ -265,7 +234,7 @@ function Brick() {
 		//this.brickY += rest ? unit-rest : 0;
 		
 		if (this.Yshift > 0) {
-			this.Y0++;
+			this.Y0--;
 		}
 		this.Yshift = 0;
 	}
