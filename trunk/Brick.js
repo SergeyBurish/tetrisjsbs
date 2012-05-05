@@ -103,12 +103,9 @@ function Brick() {
 		//this.trace_rotation(this.sqArrey[0]);
 		//ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
 		for (i = 0; i < this.sqArrey.length; i++) {
-			//this.trace_rotation(this.sqArrey[i]);
-			//ctx.fillStyle = this.color;
+			this.trace_rotation(this.sqArrey[i]);
 			
 			FillCell(gX(this.X0, this.sqArrey[i].x), gY(this.Y0, this.sqArrey[i].y), this.color, this.Yshift);
-							
-			//this.sqArrey[i].trace_rotation(this.xR, this.yR);
 			
 			if (!this.rightContact && this.sqArrey[i].IsRightContact(this.X0, this.Y0)) 
 				this.rightContact = true;
@@ -123,7 +120,7 @@ function Brick() {
 	
 	// debug
 	this.trace_rotation = function(sqr) {
-		BresenhamBy2Pnt(this.X0+this.xR, dimY - (this.Y0+this.yR) - 1, this.xR + sqr.x, this.yR - sqr.y);
+		BresenhamBy2Pnt(gX(this.X0, this.xR), gY(this.Y0, this.yR), this.xR + sqr.x, this.yR - sqr.y);
 	}
 	
 	this.Move = function() {
