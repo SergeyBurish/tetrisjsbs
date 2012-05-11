@@ -100,7 +100,7 @@ function Brick() {
 		this.bottomContact = false;
 		spToDrop = dropY;
 
-		this.trace_rotation(this.sqArrey[4]);
+		//this.trace_rotation(this.sqArrey[4]);
 		for (i = 0; i < this.sqArrey.length; i++) {
 			//this.trace_rotation(this.sqArrey[i]);
 			
@@ -215,7 +215,8 @@ function Brick() {
 			//yNew = yR + (xOld-xR)
 			this.sqArr_rotated[i].y = this.yR + this.sqArrey[i].x - this.xR;
 			
-			if ( isntFreeSquare(gX(this.X0, this.sqArr_rotated[i].x), gY(this.Y0, this.sqArr_rotated[i].y) ) ) // no way to rotate - ignore changes
+			if ( isntFreeSquare(gX(this.X0, this.sqArr_rotated[i].x), gY(this.Y0, this.sqArr_rotated[i].y) ) ||
+				 BresenhamBy2Pnt(gX(this.X0, this.xR), gY(this.Y0, this.yR), this.sqArrey[i].x - this.xR, this.yR - this.sqArrey[i].y) ) // no way to rotate - ignore changes
 				return;
 		}
 		

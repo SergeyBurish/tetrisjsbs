@@ -144,7 +144,7 @@ function NextBrick() {
 	brick.sqArrey[5].y = 2;
 	*/
 	
-	/*	
+	// /*	
 	// 5 length line
 	brick.xR = 0;
     brick.yR = 2;
@@ -173,9 +173,9 @@ function NextBrick() {
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[4].x = 3;
 	brick.sqArrey[4].y = 5;
-	*/
+	// */
 
-	// /*
+	/*
 	// inverted comma
 	brick.xR = 0.5;
     brick.yR = 0.5;
@@ -209,8 +209,7 @@ function NextBrick() {
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[4].x = -1;
 	brick.sqArrey[4].y = 4;
-	// */
-	
+	*/
 	
 /*	
 	brick.sqArrey.push(new Square());
@@ -310,25 +309,27 @@ function BresenhamBy2Pnt(x_c, y_c, x, y) {
 	//       5  4  4
 	
 	var sector = 0;
-	if      (x >= 0 && x <=  y) DoBresenhamBy2Pnt(x_c, y_c,  x,  y, 1);
-	else if (y >= 0 && x >   y) DoBresenhamBy2Pnt(x_c, y_c,  y,  x, 2);
-	else if (y <  0 && x >  -y) DoBresenhamBy2Pnt(x_c, y_c, -y,  x, 3);
-	else if (x >= 0 && x <= -y) DoBresenhamBy2Pnt(x_c, y_c,  x, -y, 4);
-	else if (x <  0 && x >=  y) DoBresenhamBy2Pnt(x_c, y_c, -x, -y, 5);
-	else if (y <  0 && x <   y) DoBresenhamBy2Pnt(x_c, y_c, -y, -x, 6);
-	else if (y >= 0 && x <  -y) DoBresenhamBy2Pnt(x_c, y_c,  y, -x, 7);
-	else if (x <  0 && x >= -y) DoBresenhamBy2Pnt(x_c, y_c, -x,  y, 8);
+	if (x >= 0 && x <=  y) return DoBresenhamBy2Pnt(x_c, y_c,  x,  y, 1);
+	if (y >= 0 && x >   y) return DoBresenhamBy2Pnt(x_c, y_c,  y,  x, 2);
+	if (y <  0 && x >  -y) return DoBresenhamBy2Pnt(x_c, y_c, -y,  x, 3);
+	if (x >= 0 && x <= -y) return DoBresenhamBy2Pnt(x_c, y_c,  x, -y, 4);
+	if (x <  0 && x >=  y) return DoBresenhamBy2Pnt(x_c, y_c, -x, -y, 5);
+	if (y <  0 && x <   y) return DoBresenhamBy2Pnt(x_c, y_c, -y, -x, 6);
+	if (y >= 0 && x <  -y) return DoBresenhamBy2Pnt(x_c, y_c,  y, -x, 7);
+	if (x <  0 && x >= -y) return DoBresenhamBy2Pnt(x_c, y_c, -x,  y, 8);
+	
+	return false; // should never happen; error handling?
 }
 
 function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 	if (x == 0 && y == 0)
-		return;
+		return false;
 		
 	var x0 = x, y0 = y;
 	
-	selectCell(x_c, y_c, x0, y0, sector);
-	selectCell(x_c, y_c, y0, x0, sector);
-	selectCell(x_c, y_c, y0, -x0, sector);
+	if ( selectCell(x_c, y_c, x0, y0, sector) ) return true;
+	if ( selectCell(x_c, y_c, y0, x0, sector) ) return true;
+	if ( selectCell(x_c, y_c, y0, -x0, sector) ) return true;
 	
 	var delta;
 	if (x == 1 && y == 1)				delta = 1;			// freaks of 
@@ -347,11 +348,11 @@ function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 		}
 		x++;
 		
-		selectCell(x_c, y_c, x, y, sector);
-		selectCell(x_c, y_c, y, x, sector);
+		if ( selectCell(x_c, y_c, x, y, sector) ) return true;
+		if ( selectCell(x_c, y_c, y, x, sector) ) return true;
 	}
  
-	if(x==y) selectCell(x_c, y_c, x, y, sector);
+	if ( (x==y) && selectCell(x_c, y_c, x, y, sector) ) return true;
 	
 	
 	x = x0;
@@ -369,9 +370,11 @@ function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 			
 		x--;
 		
-		selectCell(x_c, y_c, y, x, sector);
-		selectCell(x_c, y_c, y, -x, sector);
+		if ( selectCell(x_c, y_c, y, x, sector) ) return true;
+		if ( selectCell(x_c, y_c, y, -x, sector) ) return true;
 	}
+	
+	return false;
 }
 
 function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
@@ -388,10 +391,11 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 		case 7: xAbs = x_c - yRel; yAbs = y_c + xRel; break;
 		case 8: xAbs = x_c + yRel; yAbs = y_c + xRel; break;
 
-		default: // should never happen; error handling?
+		default: return false; // should never happen; error handling?
 	}
 	
-	FillCell(xAbs, yAbs, "rgb(250, 250, 150)", 0);
+	//FillCell(xAbs, yAbs, "rgb(250, 250, 150)", 0); return false;
+	return isntFreeSquare(xAbs, yAbs);
 }
 // /*
 function BresenhamCircle(x_center, y_center, radius, color_code) {
