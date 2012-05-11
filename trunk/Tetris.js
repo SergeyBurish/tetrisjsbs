@@ -19,6 +19,9 @@ var downKey = false;
 // Arrays of Settled Squares
 var settledArr;
 
+// Array of lines marked to remove
+var markedLinesArr;
+
 var brick;
 var zzz = 0;
 
@@ -63,6 +66,8 @@ function init() {
 		dX = 4;
 		dY = 0.25;
 		dropY = 8;
+
+		markedLinesArr = new Array();		
 		
 		//InitSquareArrrays();
 		settledArr[0] = new Array(dimX);
@@ -72,7 +77,7 @@ function init() {
 		settledArr[2] = new Array(dimX);
 		settledArr[2][0] = "rgb(250, 0, 0)";
 		settledArr[2][3] = "rgb(250, 0, 0)";
-		
+		/*
 		settledArr[5] = new Array(dimX);
 		settledArr[5][1] = "rgb(0, 250, 0)";
 		
@@ -87,6 +92,7 @@ function init() {
 		//settledArr[dimY-1] = new Array(dimX);
 		//settledArr[dimY-1][0] = "rgb(250, 0, 0)";
 		//settledArr[dimY-1][dimX-1] = "rgb(250, 0, 0)";
+		*/
 
 		
 		//alert(settledArr[2][0] + " " + settledArr[2][3] + " " + settledArr[5][1]); // + " " + sq.z + " " + sq.a);
@@ -480,6 +486,10 @@ function isntFreeSquare(x, y) {
 	return false;
 }
 
+function FreeSquare(x, y) {
+	return !isntFreeSquare(x, y);
+}
+
 function gOnSettle() {
 	settledArr.splice(1,1);
 
@@ -492,4 +502,26 @@ function gOnSettle() {
 
 
 	NextBrick();
+}
+
+function markIfFilled(y) {
+	var x;
+	
+	for (x = 0; x < dimX; x++) {
+		if ( FreeSquare(x, y) ) return;
+	}
+	
+	markedLinesArr.push(y);
+}
+
+function removeMarkedLines() {
+	markedLinesArr.sort();
+	markedLinesArr.reverse();
+	
+	for (i = 0; i < markedLinesArr.length; i++) {
+		settledArr.splice(markedLinesArr[i], 1);
+	}
+	
+	// clear markedLinesArr
+	markedLinesArr.length = 0;
 }

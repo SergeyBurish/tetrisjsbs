@@ -252,7 +252,10 @@ function Brick() {
 				settledArr[y] = new Array(dimX);
 				
 			settledArr[y][x] = this.color;
+			markIfFilled(y);
 		}
+		
+		removeMarkedLines();
 	}
 }
 // --------------- </class Brick> --------------- 
