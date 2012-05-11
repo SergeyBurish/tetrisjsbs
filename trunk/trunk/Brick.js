@@ -237,8 +237,22 @@ function Brick() {
 	}
 	
 	this.OnSettle = function() {
-		//NextBrick();
-		gOnSettle();
+		this.FillSettled();
+		NextBrick();
+	}
+	
+	this.FillSettled = function() {
+		var x, y;
+		
+		for (i = 0; i < this.sqArrey.length; i++) {
+			x = gX(this.X0, this.sqArrey[i].x);
+			y = gY(this.Y0, this.sqArrey[i].y);
+			
+			if (typeof(settledArr[y]) == 'undefined')
+				settledArr[y] = new Array(dimX);
+				
+			settledArr[y][x] = this.color;
+		}
 	}
 }
 // --------------- </class Brick> --------------- 
