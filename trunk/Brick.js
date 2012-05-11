@@ -124,17 +124,6 @@ function Brick() {
 	
 	this.Move = function() {
 		if (!this.bottomContact) {
-			// rotate
-			if (upKey) {
-				if (!rotateDone) {
-					this.RotateClockwise();
-					rotateDone = true;
-				}
-			}
-			else {  // upKey released
-				rotateDone = false;
-			}
-			
 			// vertical move
 			if (downKey) {
 				this.Yshift += spToDrop;
@@ -158,43 +147,6 @@ function Brick() {
 					}
 				}
 			}
-			
-			// horizontal move
-			if (!this.rightContact) {
-				if (rightKey) {
-					if (accumDX < 0) accumDX = 0;
-					accumDX += dX;
-					moveRight = true;
-					
-					if (accumDX >= unit) { // long pressed - accumulate moves
-						this.X0++;
-						accumDX = 0;
-						moveRight = false;
-					}
-				} // rightKey released
-				else if (moveRight) { // shortly pressed - one move
-					this.X0++;
-					moveRight = false;
-				}
-			}
-			
-			if (!this.leftContact) {
-				if (leftKey) {
-					if (accumDX > 0) accumDX = 0;
-					accumDX -= dX;
-					moveLeft = true;
-					
-					if (accumDX <= -unit) { // long pressed - accumulate moves
-						this.X0--;
-						accumDX = 0;
-						moveLeft = false;
-					}
-				} // leftKey released
-				else if (moveLeft) { // shortly pressed - one move
-					this.X0--;
-					moveLeft = false;
-				}
-			}
 		}
 		else {
 			if (delayCount < brickDelay) {
@@ -203,6 +155,54 @@ function Brick() {
 			else {
 				delayCount = 0;
 				this.OnSettle();
+			}
+		}
+		
+		// rotate
+		if (upKey) {
+			if (!rotateDone) {
+				this.RotateClockwise();
+				rotateDone = true;
+			}
+		}
+		else {  // upKey released
+			rotateDone = false;
+		}
+		
+		// horizontal move
+		if (!this.rightContact) {
+			if (rightKey) {
+				if (accumDX < 0) accumDX = 0;
+				accumDX += dX;
+				moveRight = true;
+				
+				if (accumDX >= unit) { // long pressed - accumulate moves
+					this.X0++;
+					accumDX = 0;
+					moveRight = false;
+				}
+			} // rightKey released
+			else if (moveRight) { // shortly pressed - one move
+				this.X0++;
+				moveRight = false;
+			}
+		}
+		
+		if (!this.leftContact) {
+			if (leftKey) {
+				if (accumDX > 0) accumDX = 0;
+				accumDX -= dX;
+				moveLeft = true;
+				
+				if (accumDX <= -unit) { // long pressed - accumulate moves
+					this.X0--;
+					accumDX = 0;
+					moveLeft = false;
+				}
+			} // leftKey released
+			else if (moveLeft) { // shortly pressed - one move
+				this.X0--;
+				moveLeft = false;
 			}
 		}
 	}
