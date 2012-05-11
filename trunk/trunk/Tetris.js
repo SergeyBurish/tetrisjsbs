@@ -234,6 +234,12 @@ function NextBrick() {
 	brick.sqArrey[3].x = 2;
 	brick.sqArrey[3].y = 1;
 */	
+
+	if ( brick.NoSpace() ) {
+		brick.Show();
+		alert ("game over");
+		RestartGame();
+	}
 }
 
 function Draw() {
@@ -524,4 +530,9 @@ function removeMarkedLines() {
 	
 	// clear markedLinesArr
 	markedLinesArr.length = 0;
+}
+
+function RestartGame() {
+	settledArr.length = 0;
+	NextBrick();
 }

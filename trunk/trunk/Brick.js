@@ -257,5 +257,13 @@ function Brick() {
 		
 		removeMarkedLines();
 	}
+	
+	this.NoSpace = function() {
+		for (i = 0; i < this.sqArrey.length; i++) {
+			if ( isntFreeSquare(gX(this.X0, this.sqArrey[i].x), gY(this.Y0, this.sqArrey[i].y) ) ) return true;
+		}
+		
+		return false;
+	}
 }
 // --------------- </class Brick> --------------- 
