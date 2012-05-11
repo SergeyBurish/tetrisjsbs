@@ -108,7 +108,43 @@ function NextBrick() {
 	
 	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
 	
+	/*	
+	// L 3x4
+	brick.xR = 4;
+    brick.yR = 2;
 
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[0].x = 0;
+	brick.sqArrey[0].y = 0;
+	
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[1].x = 0;
+	brick.sqArrey[1].y = 1;	
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[2].x = 0;
+	brick.sqArrey[2].y = 2;	
+	
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[3].x = 1;
+	brick.sqArrey[3].y = 2;
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[4].x = 2;
+	brick.sqArrey[4].y = 2;
+
+	brick.sqArr_rotated.push(new Square());
+	brick.sqArrey.push(new Square());
+	brick.sqArrey[5].x = 4;
+	brick.sqArrey[5].y = 2;
+	*/
+	
+	/*	
 	// 5 length line
 	brick.xR = 0;
     brick.yR = 2;
@@ -137,12 +173,13 @@ function NextBrick() {
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[4].x = 3;
 	brick.sqArrey[4].y = 5;
+	*/
 
-	/* 
+	// /*
 	// inverted comma
 	brick.xR = 0.5;
     brick.yR = 0.5;
-
+	
 	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[0].x = 0;
@@ -162,12 +199,18 @@ function NextBrick() {
 	brick.sqArrey.push(new Square());
 	brick.sqArrey[3].x = 1;
 	brick.sqArrey[3].y = 1;
-
+	
+	//brick.sqArr_rotated.push(new Square());
+	//brick.sqArrey.push(new Square());
+	//brick.sqArrey[4].x = 0;
+	//brick.sqArrey[4].y = 2;
+	
 	brick.sqArr_rotated.push(new Square());
 	brick.sqArrey.push(new Square());
-	brick.sqArrey[4].x = 2;
-	brick.sqArrey[4].y = 1;
-	*/
+	brick.sqArrey[4].x = -1;
+	brick.sqArrey[4].y = 4;
+	// */
+	
 	
 /*	
 	brick.sqArrey.push(new Square());
@@ -236,12 +279,19 @@ function Grid() {
 	}
 	
 	//BresenhamCircle(3, 19, 4, 0);
+	/*
+	var x_c = 9.5, y_c = 11.5, x = -0.5, y = -3.5;
+	//var x_c = 6, y_c = 7, x = 3, y = 4;
 	
-	//var x_c = 6, y_c = 7, x = 0, y = 4; 
-	//BresenhamBy2Pnt(x_c, y_c, x, y);
+	//FillCell(x_c + x, y_c + y, "rgb(250, 150, 0)", 0);
+	
+	BresenhamBy2Pnt(x_c, y_c, x, y);
 	//BresenhamBy2Pnt(x_c, y_c, y, -x);
 	//BresenhamBy2Pnt(x_c, y_c, -x, -y);
-	//BresenhamBy2Pnt(x_c, y_c, -y, x);	
+	//BresenhamBy2Pnt(x_c, y_c, -y, x);
+	
+	FillCell(x_c + x, y_c + y, "rgb(250, 150, 0)", 0);
+	*/
 }
 
 function BresenhamBy2Pnt(x_c, y_c, x, y) {
@@ -309,7 +359,7 @@ function DoBresenhamBy2Pnt(x_c, y_c, x, y, sector) {
 	delta = d0;
 	
 	// backward pass
-	while (x > 0) {
+	while (x > 0.5) {
 		if (delta<0) {
 			delta+= 4*(y-x)+6;
 			y++;

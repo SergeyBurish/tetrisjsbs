@@ -100,10 +100,9 @@ function Brick() {
 		this.bottomContact = false;
 		spToDrop = dropY;
 
-		//this.trace_rotation(this.sqArrey[0]);
-		//ctx.fillStyle = this.color; //"rgb(0, 250,0)"; // "rgb(250,0,0)";
+		this.trace_rotation(this.sqArrey[4]);
 		for (i = 0; i < this.sqArrey.length; i++) {
-			this.trace_rotation(this.sqArrey[i]);
+			//this.trace_rotation(this.sqArrey[i]);
 			
 			FillCell(gX(this.X0, this.sqArrey[i].x), gY(this.Y0, this.sqArrey[i].y), this.color, this.Yshift);
 			
@@ -120,7 +119,7 @@ function Brick() {
 	
 	// debug
 	this.trace_rotation = function(sqr) {
-		BresenhamBy2Pnt(gX(this.X0, this.xR), gY(this.Y0, this.yR), this.xR + sqr.x, this.yR - sqr.y);
+		BresenhamBy2Pnt(gX(this.X0, this.xR), gY(this.Y0, this.yR), sqr.x - this.xR, this.yR - sqr.y);
 	}
 	
 	this.Move = function() {
@@ -153,7 +152,7 @@ function Brick() {
 				else {
 					accumDY += dY;
 					if (accumDY >= unit) {
-						//if (this.Y0 < 10) // hover on 10 line // for debug
+						//if (this.Y0 > 12) // hover on 12 line // for debug
 						this.Y0--;
 						accumDY = 0;
 					}
