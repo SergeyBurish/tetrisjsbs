@@ -54,7 +54,7 @@ function init() {
 		cWidth = canvas.clientWidth;
 		cHeight = canvas.clientHeight;
 		dimX = 14;
-		unit = cWidth/14;
+		unit = cWidth/dimX;
 		dimY = cHeight/unit;
 		zzz = dimY - 3;
 		
@@ -68,7 +68,7 @@ function init() {
 		dropY = 8;
 
 		markedLinesArr = new Array();		
-		
+		/*
 		//InitSquareArrrays();
 		settledArr[0] = new Array(dimX);
 		settledArr[0][0] = "rgb(250, 0, 0)";
@@ -77,7 +77,7 @@ function init() {
 		settledArr[2] = new Array(dimX);
 		settledArr[2][0] = "rgb(250, 0, 0)";
 		settledArr[2][3] = "rgb(250, 0, 0)";
-		/*
+		
 		settledArr[5] = new Array(dimX);
 		settledArr[5][1] = "rgb(0, 250, 0)";
 		
@@ -107,13 +107,16 @@ function init() {
 }
 
 function NextBrick() {
+	createStandartBrick(getRandomInt(0, 6));
+
+	/*
 	brick = new Brick();
 	
 	brick.X0 = 5;
 	brick.Y0 = dimY-1;
 	
 	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
-	
+	*/
 	/*	
 	// L 3x4
 	brick.xR = 4;
@@ -150,36 +153,7 @@ function NextBrick() {
 	brick.sqArrey[5].y = 2;
 	*/
 	
-	// /*	
-	// 5 length line
-	brick.xR = 0;
-    brick.yR = 2;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 0;
-	brick.sqArrey[1].y = 1;	
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 0;
-	brick.sqArrey[2].y = 2;	
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 0;
-	brick.sqArrey[3].y = 3;
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[4].x = 3;
-	brick.sqArrey[4].y = 5;
-	// */
 
 	/*
 	// inverted comma
@@ -530,6 +504,10 @@ function removeMarkedLines() {
 	
 	// clear markedLinesArr
 	markedLinesArr.length = 0;
+}
+
+function getRandomInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function RestartGame() {
