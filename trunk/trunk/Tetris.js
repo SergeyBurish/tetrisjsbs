@@ -23,7 +23,6 @@ var settledArr;
 var markedLinesArr;
 
 var brick;
-var zzz = 0;
 
 // key is down
 function onKeyDown(event) {
@@ -56,7 +55,6 @@ function init() {
 		dimX = 14;
 		unit = cWidth/dimX;
 		dimY = cHeight/unit;
-		zzz = dimY - 3;
 		
 		settledArr = new Array(dimY);
 		
@@ -281,20 +279,6 @@ function isntFreeSquare(x, y) {
 
 function FreeSquare(x, y) {
 	return !isntFreeSquare(x, y);
-}
-
-function gOnSettle() {
-	settledArr.splice(1,1);
-
-	if (zzz < dimY) {
-		settledArr[zzz] = new Array(dimX);
-		settledArr[zzz][1] = "rgb(250, 0, 250)";
-		settledArr[zzz][10] = "rgb(250, 0, 250)";
-		zzz++;
-	}
-
-
-	NextBrick();
 }
 
 function markIfFilled(y) {
