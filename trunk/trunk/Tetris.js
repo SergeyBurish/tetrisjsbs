@@ -41,7 +41,7 @@ function onKeyUp(event) {
 	else if (event.keyCode == 40) downKey = false;
 }
 
-if (document.addEventListener) { // FF и другие
+if (document.addEventListener) {
         document.addEventListener('keydown', onKeyDown, false);
 		document.addEventListener('keyup', onKeyUp, false);
     }
@@ -68,146 +68,14 @@ function init() {
 		dropY = 8;
 
 		markedLinesArr = new Array();		
-		/*
-		//InitSquareArrrays();
-		settledArr[0] = new Array(dimX);
-		settledArr[0][0] = "rgb(250, 0, 0)";
-		settledArr[0][3] = "rgb(250, 0, 0)";
-		
-		settledArr[2] = new Array(dimX);
-		settledArr[2][0] = "rgb(250, 0, 0)";
-		settledArr[2][3] = "rgb(250, 0, 0)";
-		
-		settledArr[5] = new Array(dimX);
-		settledArr[5][1] = "rgb(0, 250, 0)";
-		
-		settledArr[6] = new Array(dimX);
-		settledArr[6][4] = "rgb(0, 0, 250)";
-		settledArr[6][7] = "rgb(0, 0, 250)";
-		
-		settledArr[8] = new Array(dimX);
-		settledArr[8][4] = "rgb(0, 0, 250)";
-		settledArr[8][5] = "rgb(0, 0, 250)";
-		
-		//settledArr[dimY-1] = new Array(dimX);
-		//settledArr[dimY-1][0] = "rgb(250, 0, 0)";
-		//settledArr[dimY-1][dimX-1] = "rgb(250, 0, 0)";
-		*/
 
-		
-		//alert(settledArr[2][0] + " " + settledArr[2][3] + " " + settledArr[5][1]); // + " " + sq.z + " " + sq.a);
-		
-		//ShowSettled();
-		NextBrick(); // get first brick
-		//alert(brick.sqArrey.length + " " + brick.sqArrey[0].x + " " + brick.sqArrey[1].y); // + " " + sq.z + " " + sq.a);
-		
+		NextBrick(); // get first brick	
 		return setInterval(Draw, redrawInterval);
-		//draw();
 	}
 }
 
 function NextBrick() {
 	createStandartBrick(getRandomInt(0, 6));
-
-	/*
-	brick = new Brick();
-	
-	brick.X0 = 5;
-	brick.Y0 = dimY-1;
-	
-	brick.color = "rgb(0, 0, 250)"; // "rgb(250,0,0)";
-	*/
-	/*	
-	// L 3x4
-	brick.xR = 4;
-    brick.yR = 2;
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 0;
-	brick.sqArrey[1].y = 1;	
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 0;
-	brick.sqArrey[2].y = 2;	
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 1;
-	brick.sqArrey[3].y = 2;
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[4].x = 2;
-	brick.sqArrey[4].y = 2;
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[5].x = 4;
-	brick.sqArrey[5].y = 2;
-	*/
-	
-
-
-	/*
-	// inverted comma
-	brick.xR = 0.5;
-    brick.yR = 0.5;
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
-
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 0;
-	brick.sqArrey[2].y = 1;	
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 1;
-	brick.sqArrey[3].y = 1;
-	
-	//brick.sqArr_rotated.push(new Square());
-	//brick.sqArrey.push(new Square());
-	//brick.sqArrey[4].x = 0;
-	//brick.sqArrey[4].y = 2;
-	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[4].x = -1;
-	brick.sqArrey[4].y = 4;
-	*/
-	
-/*	
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 1;
-	brick.sqArrey[0].y = 0;
-	
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 0;
-	brick.sqArrey[1].y = 1;	
-
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 1;
-	brick.sqArrey[2].y = 1;	
-	
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 2;
-	brick.sqArrey[3].y = 1;
-*/	
 
 	if ( brick.NoSpace() ) {
 		brick.Show();
@@ -221,8 +89,6 @@ function Draw() {
 	ctx.clearRect(1, 1, cWidth-2, cHeight-2);
 	
 	// show border
-	//ctx.strokeStyle = "rgb(255,0,0)";
-	//ctx.setLineWidth(5);
 	ctx.strokeRect (0, 0, cWidth-1, cHeight-1);
 	
 	Grid();
@@ -380,62 +246,9 @@ function selectCell(x_c, y_c, xRel, yRel, sector) { // Rel-ative
 		default: return false; // should never happen; error handling?
 	}
 	
-	//FillCell(xAbs, yAbs, "rgb(250, 250, 150)", 0); return false;
+	//FillCell(xAbs, yAbs, "rgb(250, 250, 150)", 0); return false; // debug
 	return isntFreeSquare(xAbs, yAbs);
 }
-// /*
-function BresenhamCircle(x_center, y_center, radius, color_code) {
-	ctx.fillStyle = "rgb(0, 250, 250)";
-	// center
-	setPixel(x_center, y_center, color_code);
-	
-    var x,y,delta;
-    x = 0;
-    y = radius;
-    delta=3-2*radius;
-    while(x<y) {
-        plot_circle(x,y,x_center,y_center,color_code);
-        plot_circle(y,x,x_center,y_center,color_code);
-        if (delta<0)
-            delta+=4*x+6;
-        else {
-            delta+=4*(x-y)+10;
-            y--;
-        }
-        x++;
-    }
- 
-    if(x==y) plot_circle(x,y,x_center,y_center,color_code);
-}
-
-function plot_circle(x, y, x_center, y_center, color_code)
-{
-    setPixel(x_center+x,y_center+y, color_code);
-    setPixel(x_center+x,y_center-y, color_code);
-    setPixel(x_center-x,y_center+y, color_code);
-    setPixel(x_center-x,y_center-y, color_code);
-}
-
-function setPixel(aX, aY, sector) {
-	var x = aX, y = aY;
-	
-	switch (sector)
-	{
-		case 0:
-			x = aX; y = aY;
-			break;
-			
-		case 1:
-			x = -aX; y = aY;
-			break;
-			
-		default:
-	}
-	
-	ctx.fillRect (unit*(x), unit*(dimY - y - 1),
-										unit, unit);
-}
-// */
 
 function ShowSettled() {
 	for (var y = 0; y < dimY; y++) {
