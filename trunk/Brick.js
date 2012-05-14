@@ -23,6 +23,10 @@ var rotateDone = false;
 
 var delayCount = 0;
 
+// saved pos
+var savedX;
+var savedY;
+
 // from brick's float grid  00->x  to global static grid  y
 //                          |                             ^
 //                         \/                             |
@@ -262,5 +266,15 @@ Brick.prototype.NoSpace = function() {
 	}
 	
 	return false;
+}
+
+Brick.prototype.SavePos = function() {
+    savedX = this.X0;
+    savedY = this.Y0;
+}
+
+Brick.prototype.RestorePos = function() {
+    this.X0 = savedX;
+    this.Y0 = savedY;
 }
 // --------------- </class Brick> --------------- 

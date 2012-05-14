@@ -1,249 +1,264 @@
+var brk;
 
 function createStandartBrick(block) {
 	switch (block) {
-		case 0: I(); break;
-		case 1: O(); break;
-		case 2: T(); break;
-		case 3: J(); break;
-		case 4: L(); break;
-		case 5: S(); break;
-		case 6: Z(); break;
+		case 0: return I();
+		case 1: return O();
+		case 2: return T();
+		case 3: return J();
+		case 4: return L();
+		case 5: return S();
+		case 6: return Z();
 	}
 }
 
 // o o o o
 function I() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(100, 255, 255)"; // blue
+	brk.color = "rgb(100, 255, 255)"; // blue
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 2;
-	brick.sqArrey[2].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 2;
+	brk.sqArrey[2].y = 0;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 3;
-	brick.sqArrey[3].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 3;
+	brk.sqArrey[3].y = 0;
+	
+	return brk;
 }
 
 // o o
 // o o
 function O() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(255, 255, 100)"; // yellow
+	brk.color = "rgb(255, 255, 100)"; // yellow
 	
-	brick.X0 = Math.round(dimX/2) - 1;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 1;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 0.5;
-    brick.yR = 0.5;
+	brk.xR = 0.5;
+    brk.yR = 0.5;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 0;
-	brick.sqArrey[2].y = 1;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 0;
+	brk.sqArrey[2].y = 1;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 1;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 1;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
 
 // o o o
 //   o
 function T() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(230, 50, 255)"; // lilac
+	brk.color = "rgb(230, 50, 255)"; // lilac
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 2;
-	brick.sqArrey[2].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 2;
+	brk.sqArrey[2].y = 0;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 1;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 1;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
 
 // o o o
 //     o
 function J() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(0, 0, 255)"; // deep blue
+	brk.color = "rgb(0, 0, 255)"; // deep blue
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 2;
-	brick.sqArrey[2].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 2;
+	brk.sqArrey[2].y = 0;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 2;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 2;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
 
 // o o o
 // o
 function L() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(255, 145, 35)"; // brown
+	brk.color = "rgb(255, 145, 35)"; // brown
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 2;
-	brick.sqArrey[2].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 2;
+	brk.sqArrey[2].y = 0;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 0;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 0;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
 
 //   o o
 // o o
 function S() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(0, 255, 0)"; // green
+	brk.color = "rgb(0, 255, 0)"; // green
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 1;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 1;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 2;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 2;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 0;
-	brick.sqArrey[2].y = 1;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 0;
+	brk.sqArrey[2].y = 1;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 1;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 1;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
 
 // o o
 //   o o
 function Z() {
-	brick = new Brick();
+	brk = new Brick();
 	
-	brick.color = "rgb(255, 0, 0)"; // red
+	brk.color = "rgb(255, 0, 0)"; // red
 	
-	brick.X0 = Math.round(dimX/2) - 2;
-	brick.Y0 = dimY-1;
+	brk.X0 = Math.round(dimX/2) - 2;
+	brk.Y0 = dimY-1;
 	
-	brick.xR = 1;
-    brick.yR = 0;
+	brk.xR = 1;
+    brk.yR = 0;
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[0].x = 0;
-	brick.sqArrey[0].y = 0;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[0].x = 0;
+	brk.sqArrey[0].y = 0;
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[1].x = 1;
-	brick.sqArrey[1].y = 0;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[1].x = 1;
+	brk.sqArrey[1].y = 0;	
 
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[2].x = 1;
-	brick.sqArrey[2].y = 1;	
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[2].x = 1;
+	brk.sqArrey[2].y = 1;	
 	
-	brick.sqArr_rotated.push(new Square());
-	brick.sqArrey.push(new Square());
-	brick.sqArrey[3].x = 2;
-	brick.sqArrey[3].y = 1;
+	brk.sqArr_rotated.push(new Square());
+	brk.sqArrey.push(new Square());
+	brk.sqArrey[3].x = 2;
+	brk.sqArrey[3].y = 1;
+	
+	return brk;
 }
