@@ -1,7 +1,8 @@
 var canvas;
 var ctx;
 var cWidth;
-var cHeight;
+var gridWidth;
+var gridHeight; // == cHeight;
 var unit;
 
 var dimX;
@@ -23,6 +24,7 @@ var settledArr;
 var markedLinesArr;
 
 var brick;
+var nextBrick;
 
 // key is down
 function onKeyDown(event) {
@@ -51,10 +53,13 @@ function init() {
 	if (canvas.getContext) {
 		ctx = canvas.getContext("2d");
 		cWidth = canvas.clientWidth;
-		cHeight = canvas.clientHeight;
+		gridHeight = canvas.clientHeight;
+		
+		gridWidth = cWidth - Math.floor(cWidth/3);
+		
 		dimX = 14;
-		unit = cWidth/dimX;
-		dimY = cHeight/unit;
+		unit = Math.floor(gridWidth/dimX);
+		dimY = Math.floor(gridHeight/unit);
 		
 		settledArr = new Array(dimY);
 		
@@ -65,15 +70,26 @@ function init() {
 		dY = 0.25;
 		dropY = 8;
 
-		markedLinesArr = new Array();		
-
-		NextBrick(); // get first brick	
+		markedLinesArr = new Array();
+		
+		// get the first brick
+		nextBrick = createStandartBrick(getRandomInt(0, 6));
+		nextBrick.SavePos();
+		
+		NextBrick();
+		
 		return setInterval(Draw, redrawInterval);
 	}
 }
 
 function NextBrick() {
-	createStandartBrick(getRandomInt(0, 6));
+	brick = nextBrick;
+	brick.RestorePos();
+	
+	nextBrick = createStandartBrick(getRandomInt(0, 6));
+	nextBrick.SavePos();
+	nextBrick.X0 = dimX+1;
+    nextBrick.Y0 = dimY-2;
 
 	if ( brick.NoSpace() ) {
 		brick.Show();
@@ -84,13 +100,14 @@ function NextBrick() {
 
 function Draw() {
 	// clear
-	ctx.clearRect(1, 1, cWidth-2, cHeight-2);
+	ctx.clearRect(1, 1, cWidth-2, gridHeight-2);
 	
 	// show border
-	ctx.strokeRect (0, 0, cWidth-1, cHeight-1);
+	ctx.strokeRect (0, 0, gridWidth-1, gridHeight-1);
 	
 	Grid();
 	ShowSettled();
+	nextBrick.Show();
 	brick.Show();
 	brick.Move();
 }
@@ -103,12 +120,12 @@ function Grid() {
 
 	// verticals
 	var offsetX = unit;
-	for (var i = 1; offsetX < cWidth; i++) {
+	for (var i = 1; offsetX < gridWidth; i++) {
 		offsetX = unit * i;
 		ctx.beginPath();
 		
 		ctx.moveTo(offsetX, 0);
-		ctx.lineTo(offsetX, cHeight);
+		ctx.lineTo(offsetX, gridHeight);
 		
 		ctx.closePath();
 		ctx.stroke();
@@ -116,31 +133,16 @@ function Grid() {
 	
 	// horizontals
 	var offsetY = unit;
-	for (i = 1; offsetY < cHeight; i++) {
+	for (i = 1; offsetY < gridHeight; i++) {
 		offsetY = unit * i;
 		ctx.beginPath();
 		
 		ctx.moveTo(0, offsetY);
-		ctx.lineTo(cWidth, offsetY);
+		ctx.lineTo(gridWidth, offsetY);
 		
 		ctx.closePath();
 		ctx.stroke();
 	}
-	
-	//BresenhamCircle(3, 19, 4, 0);
-	/*
-	var x_c = 9.5, y_c = 11.5, x = -0.5, y = -3.5;
-	//var x_c = 6, y_c = 7, x = 3, y = 4;
-	
-	//FillCell(x_c + x, y_c + y, "rgb(250, 150, 0)", 0);
-	
-	BresenhamBy2Pnt(x_c, y_c, x, y);
-	//BresenhamBy2Pnt(x_c, y_c, y, -x);
-	//BresenhamBy2Pnt(x_c, y_c, -x, -y);
-	//BresenhamBy2Pnt(x_c, y_c, -y, x);
-	
-	FillCell(x_c + x, y_c + y, "rgb(250, 150, 0)", 0);
-	*/
 }
 
 function BresenhamBy2Pnt(x_c, y_c, x, y) {
@@ -261,10 +263,8 @@ function ShowSettled() {
 }
 
 function FillCell(x, y, color, dy) {
-	if (x >= 0 && x < dimX && y >= 0 && y < dimY) {
-		ctx.fillStyle = color;
-		ctx.fillRect (unit*(x), unit*(dimY - y - 1) + dy, unit, unit);
-	}
+	ctx.fillStyle = color;
+	ctx.fillRect (unit*(x), unit*(dimY - y - 1) + dy, unit, unit);
 }
 
 function isntFreeSquare(x, y) {
