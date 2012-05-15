@@ -11,6 +11,8 @@ var dimY;
 var redrawInterval; // ms
 var brickDelay; // before next brick - in redrawIntervals
 
+var mode; // 0 - standart bricks, otherwise - random bricks
+
 // pressed keys
 var rightKey = false;
 var leftKey = false;
@@ -69,11 +71,13 @@ function init() {
 		dX = 4;
 		dY = 0.25;
 		dropY = 8;
+		
+		mode = 1;
 
 		markedLinesArr = new Array();
 		
 		// get the first brick
-		nextBrick = createStandartBrick(getRandomInt(0, 6));
+		nextBrick = createBrick();
 		nextBrick.SavePos();
 		
 		NextBrick();
@@ -86,7 +90,7 @@ function NextBrick() {
 	brick = nextBrick;
 	brick.RestorePos();
 	
-	nextBrick = createStandartBrick(getRandomInt(0, 6));
+	nextBrick = createBrick();
 	nextBrick.SavePos();
 	nextBrick.X0 = dimX+1;
     nextBrick.Y0 = dimY-2;
@@ -96,6 +100,13 @@ function NextBrick() {
 		alert ("game over");
 		RestartGame();
 	}
+}
+
+function createBrick() {
+	if (mode == 0)
+		return createStandartBrick(getRandomInt(0, 6));
+	
+	return createRandomBrick();
 }
 
 function Draw() {
