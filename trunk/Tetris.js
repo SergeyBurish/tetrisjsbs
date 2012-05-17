@@ -1,8 +1,13 @@
 var canvas;
 var ctx;
+
 var cWidth;
 var gridWidth;
-var gridHeight; // == cHeight;
+var gridHeight; // == cHeight for now;
+
+var panelWidth;
+var topPanelHeight;
+
 var unit;
 
 var dimX;
@@ -57,7 +62,10 @@ function init() {
 		cWidth = canvas.clientWidth;
 		gridHeight = canvas.clientHeight;
 		
-		gridWidth = cWidth - Math.floor(cWidth/3);
+		panelWidth = Math.floor(cWidth/3);
+		topPanelHeight = Math.round(gridHeight/2);
+		
+		gridWidth = cWidth - panelWidth;
 		
 		dimX = 14;
 		unit = Math.floor(gridWidth/dimX);
@@ -75,6 +83,7 @@ function init() {
 		mode = 1;
 
 		markedLinesArr = new Array();
+		addButton("Restart", gridWidth+unit, topPanelHeight + unit, RestartGame);
 		
 		// get the first brick
 		nextBrick = createBrick();
@@ -84,6 +93,21 @@ function init() {
 		
 		return setInterval(Draw, redrawInterval);
 	}
+}
+
+function addButton(name, x, y, onclick) {
+	var cont = document.getElementById("container");
+	var button = document.createElement("button");
+	
+	var buttext = document.createTextNode(name);
+	button.appendChild(buttext);
+	button.onclick = onclick;
+	
+	button.style.position = "absolute";
+	button.style.left = x + "px";
+	button.style.top =  y + "px";
+	
+	cont.appendChild(button);
 }
 
 function NextBrick() {
@@ -111,7 +135,8 @@ function createBrick() {
 
 function Draw() {
 	// clear
-	ctx.clearRect(1, 1, cWidth-2, gridHeight-2);
+	ctx.clearRect(1, 1, gridWidth-2, gridHeight-2);
+	ctx.clearRect( gridWidth+2, 1, panelWidth - 2, topPanelHeight );
 	
 	// show border
 	ctx.strokeRect (0, 0, gridWidth-1, gridHeight-1);
@@ -124,7 +149,6 @@ function Draw() {
 }
 
 function Grid() {
-	// show border
 	ctx.strokeStyle = "rgba(0, 0, 0, 0.15)";
 	
 	ctx.beginPath();
