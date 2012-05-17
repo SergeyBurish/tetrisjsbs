@@ -154,9 +154,9 @@ function Grid() {
 	ctx.beginPath();
 
 	// verticals
-	var offsetX = unit;
-	for (var i = 1; offsetX < gridWidth; i++) {
-		offsetX = unit * i;
+	var offsetX = 0;
+	while (offsetX < gridWidth) {
+		offsetX += unit;
 		ctx.beginPath();
 		
 		ctx.moveTo(offsetX, 0);
@@ -167,9 +167,9 @@ function Grid() {
 	}
 	
 	// horizontals
-	var offsetY = unit;
-	for (i = 1; offsetY < gridHeight; i++) {
-		offsetY = unit * i;
+	var offsetY = 0;
+	while (offsetY < gridHeight) {
+		offsetY += unit;
 		ctx.beginPath();
 		
 		ctx.moveTo(0, offsetY);
