@@ -23,6 +23,7 @@ var score = 0;
 var gameOver; // game over sign
 
 var mode; // 0 - standart bricks, otherwise - random bricks
+var standRB; // standart radio button
 
 // pressed keys
 var rightKey = false;
@@ -97,11 +98,11 @@ function init() {
 		
 		// controls
 		var yPos = topPanelHeight + unit;
-		yPos += addButton("Restart", gridWidth+unit, yPos, RestartGame);
-		yPos += 10;
-		yPos += addRadioButton("mode", "Standart", true, gridWidth+unit, yPos, SwitchMode);
-		yPos += 10;
-		yPos += addRadioButton("mode", "Random", false, gridWidth+unit, yPos, SwitchMode);
+		var but = addButton("Restart", gridWidth+unit, yPos, RestartGame);
+		yPos += but.offsetHeight + 10;
+		standRB = addRadioButton("mode", "Standart", true, gridWidth+unit, yPos, SwitchMode);
+		yPos += standRB.offsetHeight + 10;
+		addRadioButton("mode", "Random", false, gridWidth+unit, yPos,  SwitchMode);
 		
 		// get the first brick
 		nextBrick = createBrick();
@@ -126,7 +127,7 @@ function addButton(name, x, y, onclick) {
 	
 	container.appendChild(button);
 	
-	return button.offsetHeight;
+	return button;
 }
 
 function addRadioButton(name, value, checked, x, y, onclick) {
@@ -141,7 +142,7 @@ function addRadioButton(name, value, checked, x, y, onclick) {
 	
 	var rtext = document.createTextNode(value);
 	radioBut.appendChild(rtext);
-	radioBut.onclick = SwitchMode;
+	radioBut.onclick = onclick;
 	
 	radioBut.style.position = "absolute";
 	radioBut.style.left = x + "px";
@@ -149,11 +150,11 @@ function addRadioButton(name, value, checked, x, y, onclick) {
 	
 	container.appendChild(radioBut);
 	
-	return radioBut.offsetHeight;
+	return radioBut;
 }
 
 function SwitchMode() {
-	mode = mode? 0 : 1;
+	mode = standRB.firstChild.checked? 0 : 1;
 }
 
 function NextBrick() {
