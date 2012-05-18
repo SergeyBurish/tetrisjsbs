@@ -1,3 +1,4 @@
+var container;
 var canvas;
 var ctx;
 
@@ -15,6 +16,9 @@ var dimY;
 
 var redrawInterval; // ms
 var brickDelay; // before next brick - in redrawIntervals
+
+var message; // text element shown over the canvas;
+var gameOver; // game over sign
 
 var mode; // 0 - standart bricks, otherwise - random bricks
 
@@ -56,7 +60,9 @@ if (document.addEventListener) {
 
 
 function init() {
+	container = document.getElementById("container");
 	canvas = document.getElementById("canvas01");
+	message = document.createElement("div");
 	if (canvas.getContext) {
 		ctx = canvas.getContext("2d");
 		cWidth = canvas.clientWidth;
@@ -81,6 +87,7 @@ function init() {
 		dropY = 8;
 		
 		mode = 1;
+		gameOver = false;
 
 		markedLinesArr = new Array();
 		addButton("Restart", gridWidth+unit, topPanelHeight + unit, RestartGame);
@@ -91,12 +98,11 @@ function init() {
 		
 		NextBrick();
 		
-		return setInterval(Draw, redrawInterval);
+		setInterval(Draw, redrawInterval);
 	}
 }
 
 function addButton(name, x, y, onclick) {
-	var cont = document.getElementById("container");
 	var button = document.createElement("button");
 	
 	var buttext = document.createTextNode(name);
@@ -107,7 +113,7 @@ function addButton(name, x, y, onclick) {
 	button.style.left = x + "px";
 	button.style.top =  y + "px";
 	
-	cont.appendChild(button);
+	container.appendChild(button);
 }
 
 function NextBrick() {
@@ -120,9 +126,9 @@ function NextBrick() {
     nextBrick.Y0 = dimY-2;
 
 	if ( brick.NoSpace() ) {
+		gameOver = true;
 		brick.Show();
-		alert ("game over");
-		RestartGame();
+		ShortMessage("Game over", "rgb(255, 0, 0)", "50px sans-serif");
 	}
 }
 
@@ -343,6 +349,35 @@ function getRandomInt(min, max) {
 }
 
 function RestartGame() {
-	settledArr.length = 0;
+	gameOver = false; // drop gameOver sign
+	settledArr.length = 0; // clear all settled cells;
+	container.removeChild(message); // clear all messages
 	NextBrick();
+}
+
+function ShortMessage(text, color, font) {
+	message.innerHTML = text;
+	
+	message.style.font = font;
+	message.style.color = color;
+		
+	message.style.position = "absolute";
+	message.style.visibility = "hidden";
+	
+	container.appendChild(message);
+	
+	if (message.offsetWidth >= gridWidth) {
+		container.removeChild(message);
+		return;
+	}
+	
+	message.style.top = gridHeight/2 + "px";
+	message.style.left = (gridWidth - message.offsetWidth)/2 + "px";
+	
+	message.style.background =  "rgba(0, 100, 255, 0.4)";
+	//message.style.outlineStyle = "solid";
+	//message.style.outlineWidth = "thin";
+	//message.style.outlineColor = "rgba(0, 0, 0, 0.15)";
+	
+	message.style.visibility = "visible";
 }

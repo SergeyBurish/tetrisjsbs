@@ -240,7 +240,9 @@ Brick.prototype.AlignYpos = function() {
 
 Brick.prototype.OnSettle = function() {
 	this.FillSettled();
-	NextBrick();
+	
+	if (! gameOver)
+		NextBrick();
 }
 
 Brick.prototype.FillSettled = function() {
