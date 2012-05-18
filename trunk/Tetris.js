@@ -86,11 +86,18 @@ function init() {
 		dY = 0.25;
 		dropY = 8;
 		
-		mode = 1;
+		mode = 0;
 		gameOver = false;
 
 		markedLinesArr = new Array();
-		addButton("Restart", gridWidth+unit, topPanelHeight + unit, RestartGame);
+		
+		// controls
+		var yPos = topPanelHeight + unit;
+		yPos += addButton("Restart", gridWidth+unit, yPos, RestartGame);
+		yPos += 10;
+		yPos += addRadioButton("mode", "Standart", true, gridWidth+unit, yPos, SwitchMode);
+		yPos += 10;
+		yPos += addRadioButton("mode", "Random", false, gridWidth+unit, yPos, SwitchMode);
 		
 		// get the first brick
 		nextBrick = createBrick();
@@ -114,6 +121,35 @@ function addButton(name, x, y, onclick) {
 	button.style.top =  y + "px";
 	
 	container.appendChild(button);
+	
+	return button.offsetHeight;
+}
+
+function addRadioButton(name, value, checked, x, y, onclick) {
+	var radioHtml = '<input type="radio" name="' + name + '" value="' + value + '"';
+	if ( checked ) {
+		radioHtml += ' checked="checked"';
+	}
+	radioHtml += '/>';
+	
+	var radioBut = document.createElement('div');
+	radioBut.innerHTML = radioHtml;
+	
+	var rtext = document.createTextNode(value);
+	radioBut.appendChild(rtext);
+	radioBut.onclick = SwitchMode;
+	
+	radioBut.style.position = "absolute";
+	radioBut.style.left = x + "px";
+	radioBut.style.top =  y + "px";
+	
+	container.appendChild(radioBut);
+	
+	return radioBut.offsetHeight;
+}
+
+function SwitchMode() {
+	mode = mode? 0 : 1;
 }
 
 function NextBrick() {
@@ -351,7 +387,12 @@ function getRandomInt(min, max) {
 function RestartGame() {
 	gameOver = false; // drop gameOver sign
 	settledArr.length = 0; // clear all settled cells;
+	
+	try {
 	container.removeChild(message); // clear all messages
+	}
+	catch(err) {} // ignore
+	
 	NextBrick();
 }
 
