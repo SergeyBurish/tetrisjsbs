@@ -241,8 +241,10 @@ Brick.prototype.AlignYpos = function() {
 Brick.prototype.OnSettle = function() {
 	this.FillSettled();
 	
-	if (! gameOver)
+	if (! gameOver) {
+		AddScore(1);
 		NextBrick();
+	}
 }
 
 Brick.prototype.FillSettled = function() {
