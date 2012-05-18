@@ -18,6 +18,8 @@ var redrawInterval; // ms
 var brickDelay; // before next brick - in redrawIntervals
 
 var message; // text element shown over the canvas;
+var scoreMsg; // text element shown score;
+var score = 0;
 var gameOver; // game over sign
 
 var mode; // 0 - standart bricks, otherwise - random bricks
@@ -63,6 +65,8 @@ function init() {
 	container = document.getElementById("container");
 	canvas = document.getElementById("canvas01");
 	message = document.createElement("div");
+	scoreMsg = document.createElement("div");
+	
 	if (canvas.getContext) {
 		ctx = canvas.getContext("2d");
 		cWidth = canvas.clientWidth;
@@ -374,6 +378,7 @@ function removeMarkedLines() {
 	
 	for (i = 0; i < markedLinesArr.length; i++) {
 		settledArr.splice(markedLinesArr[i], 1);
+		AddScore(10);
 	}
 	
 	// clear markedLinesArr
@@ -387,6 +392,8 @@ function getRandomInt(min, max) {
 function RestartGame() {
 	gameOver = false; // drop gameOver sign
 	settledArr.length = 0; // clear all settled cells;
+	score = 0; // clear score
+	AddScore(0); // show score
 	
 	try {
 	container.removeChild(message); // clear all messages
@@ -394,6 +401,21 @@ function RestartGame() {
 	catch(err) {} // ignore
 	
 	NextBrick();
+}
+
+function AddScore(inc) {
+	score += inc;
+	scoreMsg.innerHTML = score;
+	
+	scoreMsg.style.font = "30px sans-serif";
+	scoreMsg.style.color = "rgb(0, 0, 255)";
+		
+	scoreMsg.style.position = "absolute";
+	
+	container.appendChild(scoreMsg);
+		
+	scoreMsg.style.top = gridHeight - scoreMsg.offsetHeight - 5 + "px";
+	scoreMsg.style.left = gridWidth+unit + "px";
 }
 
 function ShortMessage(text, color, font) {
